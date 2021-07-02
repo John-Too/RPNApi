@@ -11,19 +11,19 @@ namespace RPN_API.Controllers
 {
 
     [ApiController]
-    [Route("rpn/[controller]")]
+    [Route("[controller]")]
     public class rpn : ControllerBase
     {
         public static Dictionary<int, RPNCalc> stacks = new Dictionary<int, RPNCalc>();
-        int i = 0; // stacks ids increment
-        // List Operands
-        [HttpGet("rpn/op")]
+        int i = 0; 
+        // GET: List Avaliable Operators
+        [HttpGet("op")]
         public string GetOp()
         {
             return ("+ - * /");
         }
 
-        [HttpDelete("rpn/op/{op}/stack/{strackid}")]
+        [HttpPost("op/{op}/stack/{strackid}")]
         public void pushToStack(string op, int stackid)
         {
             var st = stacks.GetValueOrDefault(stackid);
@@ -31,15 +31,15 @@ namespace RPN_API.Controllers
             st.doOperation(op);
         }
 
-        // Create a new Stack
-        [HttpPost("rpn/stack")]
+        // POST: Create a new Stack
+        [HttpPost("stack")]
         public void AddStack()
         {
             stacks.Add(i, new RPNCalc());
             i++;
         }
-        // List Stack
-        [HttpGet("rpn/stack")]
+        // GET: List Stack
+        [HttpGet("stack")]
         public string GetStacks()
         {
             StringBuilder sb = new StringBuilder();
@@ -55,7 +55,8 @@ namespace RPN_API.Controllers
             return sb.ToString();
         }
 
-        [HttpDelete("rpn/stack/{stackid}")]
+        // DELETE: DELETE Stack
+        [HttpDelete("stack/{stackid}")]
         public void deleteStack(int stackid)
         {
             var st = stacks.GetValueOrDefault(stackid);
@@ -64,12 +65,32 @@ namespace RPN_API.Controllers
             stacks.Remove(stackid);
         }
 
-        [HttpDelete("rpn/stack/{stackid}")]
-        public void pushToStack(int stackid, int number )
+        // POST: AddNumber To Stack
+        [HttpPost("stack/{stackid}")]
+        public void pushToStack(int stackid, [FromBody] int number )
         {
             var st = stacks.GetValueOrDefault(stackid);
 
             st.addNumber(number);
+        }
+        // GET: get Stack
+        [HttpGet("stack/{stackid}")]
+        public string GetStack(int stackid)
+        {
+            var st = stacks.GetValueOrDefault(stackid);
+            var nums = st.GetNumbers();
+            StringBuilder sb = new StringBuilder();
+
+            int size = nums.Count();
+            int i = 0;
+            foreach (var element in nums)
+            {
+                sb.Append(element.ToString());
+                i++;
+                if (i != size)
+                    sb.Append(" ");
+            }
+            return sb.ToString();
         }
     }
 }
