@@ -9,20 +9,31 @@ using System.Threading.Tasks;
 
 namespace RPN_API.Controllers
 {
-
+    /// <summary>
+    /// 
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
+
     public class rpn : ControllerBase
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public static Dictionary<int, RPNCalc> stacks = new Dictionary<int, RPNCalc>();
-        int i = 0; // stacks ids increment
-        // GET: List Avaliable Operators
+        static int i = 0; 
+
+        /// <summary>
+        ///  List Avaliable Operators
+        /// </summary>
         [HttpGet("op")]
         public string GetOp()
         {
             return ("+ - * /");
         }
-
+        /// <summary>
+        /// Add operator to stack
+        /// </summary>
         [HttpPost("op/{op}/stack/{strackid}")]
         public void pushToStack(string op, int stackid)
         {
@@ -30,32 +41,36 @@ namespace RPN_API.Controllers
 
             st.doOperation(op);
         }
-
-        // POST: Create a new Stack
+        /// <summary>
+        /// Create a new Stack
+        /// </summary>
         [HttpPost("stack")]
         public void AddStack()
         {
             stacks.Add(i, new RPNCalc());
             i++;
         }
-        // GET: List Stack
+        /// <summary>
+        /// List Stack
+        /// </summary>
         [HttpGet("stack")]
         public string GetStacks()
         {
             StringBuilder sb = new StringBuilder();
             int size = stacks.Count();
-            int i = 0;
+            int j = 0;
             foreach (var element in stacks)
             {
                 sb.Append(element.Key.ToString());
-                i++;
-                if (i != size)
+                j++;
+                if (j != size)
                     sb.Append(" ");
             }
             return sb.ToString();
         }
-
-        // DELETE: DELETE Stack
+        /// <summary>
+        /// DELETE Stack
+        /// </summary>
         [HttpDelete("stack/{stackid}")]
         public void deleteStack(int stackid)
         {
@@ -64,8 +79,9 @@ namespace RPN_API.Controllers
             st.Clear();
             stacks.Remove(stackid);
         }
-
-        // POST: AddNumber To Stack
+        /// <summary>
+        /// AddNumber To Stack
+        /// </summary>
         [HttpPost("stack/{stackid}")]
         public void pushToStack(int stackid, [FromBody] int number )
         {
@@ -73,21 +89,27 @@ namespace RPN_API.Controllers
 
             st.addNumber(number);
         }
-        // GET: get Stack
+        /// <summary>
+        /// Get Stack
+        /// <summary>
         [HttpGet("stack/{stackid}")]
         public string GetStack(int stackid)
         {
             var st = stacks.GetValueOrDefault(stackid);
+            if (st == null)
+            {
+                throw new RPN_API.Exceptions.InvalidStackException(); 
+            }
             var nums = st.GetNumbers();
             StringBuilder sb = new StringBuilder();
 
             int size = nums.Count();
-            int i = 0;
+            int j = 0;
             foreach (var element in nums)
             {
                 sb.Append(element.ToString());
-                i++;
-                if (i != size)
+                j++;
+                if (j != size)
                     sb.Append(" ");
             }
             return sb.ToString();
