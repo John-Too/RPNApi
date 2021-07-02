@@ -15,7 +15,7 @@ namespace RPN_API.Controllers
     public class rpn : ControllerBase
     {
         public static Dictionary<int, RPNCalc> stacks = new Dictionary<int, RPNCalc>();
-        int i = 0; 
+        int i = 0; // stacks ids increment
         // GET: List Avaliable Operators
         [HttpGet("op")]
         public string GetOp()
