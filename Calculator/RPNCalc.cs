@@ -66,8 +66,8 @@ namespace RPN_API.Calculator
         {
             if (numbers.Count > 2)
             {
-                int A = numbers[numbers.Count - 1];
-                int B = numbers[numbers.Count - 2];
+                int B = numbers[numbers.Count - 1];
+                int A = numbers[numbers.Count - 2];
                 numbers[numbers.Count - 2] = op.DoOp(A,B);
                 numbers.RemoveAt(numbers.Count - 1);
             }
