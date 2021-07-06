@@ -34,8 +34,8 @@ namespace RPN_API.Controllers
         /// <summary>
         /// Add operator to stack
         /// </summary>
-        [HttpPost("op/{op}/stack/{strackid}")]
-        public void pushToStack(string op, int stackid)
+        [HttpPost("/stack/{stackid}/op")]
+        public void pushToStack(int stackid, string op)
         {
             var st = stacks.GetValueOrDefault(stackid);
 

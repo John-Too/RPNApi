@@ -67,7 +67,7 @@ namespace RPN_API.Calculator
                 int B = numbers[numbers.Count - 2];
                 try
                 {
-                    numbers[numbers.Count - 2] = getOperation(op).DoOp(A, B);
+                    numbers[numbers.Count - 2] = getOperation(op).DoOp(B, A);
                 }
                 catch (Exception e)
                 {
