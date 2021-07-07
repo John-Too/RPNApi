@@ -46,7 +46,7 @@ namespace RPN_API.Calculator
         /// <param name="op"></param>
         public void doOperation(Operator op)
         {
-            if (numbers.Count > 2)
+            if (numbers.Count >= 2)
             {
                 int A = numbers[numbers.Count - 1];
                 int B = numbers[numbers.Count - 2];

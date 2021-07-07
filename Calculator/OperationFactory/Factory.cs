@@ -9,7 +9,7 @@ namespace RPN_API.Calculator.OperationFactory
     /// <summary>
     /// 
     /// </summary>
-    public class Factory
+    public static class Factory
     {
         /// <summary>
         /// 

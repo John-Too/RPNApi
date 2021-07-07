@@ -102,7 +102,7 @@ namespace RPN_API.Controllers
         }
         /// <summary>
         /// Get Stack
-        /// <summary>
+        /// </summary>
         [HttpGet("stack/{stackid}")]
         public string GetStack(int stackid)
         {
