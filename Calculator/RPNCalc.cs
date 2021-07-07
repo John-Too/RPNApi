@@ -39,56 +39,18 @@ namespace RPN_API.Calculator
         /// </summary>
         /// <param name="op"></param>
         /// <returns></returns>
-       Operator getOperation(string op)
-        {
-            switch (op)
-            {
-                case "+":
-                    return new Add();
-                case "-":
-                    return new Sub();
-                case "*":
-                    return new Mul();
-                case "/":
-                    return new Div();
-                default:
-                    throw new InvalidOperationException();
-            }
-        }
+      
         /// <summary>
         /// 
         /// </summary>
         /// <param name="op"></param>
-        public void doOperation(string op)
-        {
-            if (numbers.Count >= 2)
-            {
-                int A = numbers[numbers.Count - 1];
-                int B = numbers[numbers.Count - 2];
-                try
-                {
-                    numbers[numbers.Count - 2] = getOperation(op).DoOp(B, A);
-                }
-                catch (Exception e)
-                {
-                    throw;
-                }
-                numbers.RemoveAt(numbers.Count - 1);
-            }
-            else
-                throw new InvalidOperationException();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="op"></param>
-        void doOperation(Operator op)
+        public void doOperation(Operator op)
         {
             if (numbers.Count > 2)
             {
-                int B = numbers[numbers.Count - 1];
-                int A = numbers[numbers.Count - 2];
-                numbers[numbers.Count - 2] = op.DoOp(A,B);
+                int A = numbers[numbers.Count - 1];
+                int B = numbers[numbers.Count - 2];
+                numbers[numbers.Count - 2] = op.DoOp(B,A);
                 numbers.RemoveAt(numbers.Count - 1);
             }
             else

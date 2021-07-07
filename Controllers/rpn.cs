@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RPN_API.Calculator;
+using RPN_API.Calculator.OperationFactory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,8 +39,12 @@ namespace RPN_API.Controllers
         public void pushToStack(int stackid, string op)
         {
             var st = stacks.GetValueOrDefault(stackid);
-
-            st.doOperation(op);
+            if (st != null)
+                st.doOperation(Factory.getOperation(op));
+            else
+            {
+                throw new RPN_API.Exceptions.InvalidStackException();
+            }
         }
         /// <summary>
         /// Create a new Stack
@@ -75,7 +80,10 @@ namespace RPN_API.Controllers
         public void deleteStack(int stackid)
         {
             var st = stacks.GetValueOrDefault(stackid);
-
+            if (st == null)
+            {
+                throw new RPN_API.Exceptions.InvalidStackException();
+            }
             st.Clear();
             stacks.Remove(stackid);
         }
@@ -86,7 +94,10 @@ namespace RPN_API.Controllers
         public void pushToStack(int stackid, [FromBody] int number )
         {
             var st = stacks.GetValueOrDefault(stackid);
-
+            if (st == null)
+            {
+                throw new RPN_API.Exceptions.InvalidStackException();
+            }
             st.addNumber(number);
         }
         /// <summary>
